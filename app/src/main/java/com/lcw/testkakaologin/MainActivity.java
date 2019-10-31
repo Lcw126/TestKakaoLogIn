@@ -12,6 +12,7 @@ import android.content.pm.Signature;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,7 +22,9 @@ import com.kakao.auth.KakaoSDK;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeResponseCallback;
+import com.kakao.usermgmt.callback.UnLinkResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
@@ -55,6 +58,15 @@ public class MainActivity extends Activity {
 
         //자기 카카오톡 프로필 정보 및 디비정보 쉐어드에 저장해놨던거 불러오기
         //loadShared();
+
+        if (Session.getCurrentSession().isOpened()) {
+            // 로그인 상태
+//            Intent intent=new Intent(MainActivity.this, AccountActivity.class);
+//            startActivity(intent);
+//            finish();
+        } else {
+            // 로그인되어있지 않은 상태
+        }
     }
     //카카오 디벨로퍼에서 사용할 키값을 로그를 통해 알아낼 수 있다. (로그로 본 키 값을을 카카오 디벨로퍼에 등록해주면 된다.)
     private void getAppKeyHash() {
@@ -85,6 +97,18 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         Session.getCurrentSession().removeCallback(callback);
+    }
+
+    public void clickLogOut(View view) {
+        onClickLogout();
+    }
+    private void onClickLogout() {
+        UserManagement.requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                redirectLoginActivity();
+            }
+        });
     }
 
     private class SessionCallback implements ISessionCallback {
@@ -159,6 +183,10 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+
+
+
 
 //    private void redirectHomeActivity() {
 //        startActivity(new Intent(this, HomeActivity.class));
