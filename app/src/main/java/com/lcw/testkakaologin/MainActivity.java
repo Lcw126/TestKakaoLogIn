@@ -35,6 +35,8 @@ import java.util.Map;
 
 public class MainActivity extends Activity {
 
+    public static long kakaoIDNUM;
+
 
     private SessionCallback callback;      //콜백 선언
     //유저프로필
@@ -54,7 +56,7 @@ public class MainActivity extends Activity {
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         //키값 알아내기(알아냈으면 등록하고 지워도 상관없다)
-        getAppKeyHash();
+       ////// getAppKeyHash();
 
         //자기 카카오톡 프로필 정보 및 디비정보 쉐어드에 저장해놨던거 불러오기
         //loadShared();
@@ -161,9 +163,10 @@ public class MainActivity extends Activity {
                 // Create a new user with a first and last name
                 // 유저 카카오톡 아이디 디비에 넣음(첫가입인 경우에만 디비에저장)
 
-                Map<String, String> user = new HashMap<>();
-                user.put("token", userProfile.getId() + "");
-                user.put("name", userProfile.getNickname());
+//                Map<String, String> user = new HashMap<>();
+                kakaoIDNUM=userProfile.getId();
+//                user.put("token", userProfile.getId() + "");
+//                user.put("name", userProfile.getNickname());
 //                //db.collection("users")
 //                        .document(userProfile.getId() + "")
 //                        .set(user)
@@ -183,9 +186,6 @@ public class MainActivity extends Activity {
             }
         });
     }
-
-
-
 
 
 //    private void redirectHomeActivity() {
