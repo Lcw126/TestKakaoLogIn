@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,15 +48,11 @@ public class AccountActivity extends AppCompatActivity {
             {
                 try{
                     InputStream in = getContentResolver().openInputStream(data.getData());
-
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
-
-                    iv_01.setImageBitmap(img);
-
-
-
-
+                   // iv_01.setImageBitmap(img);
+                    Uri uri= data.getData();
+                    iv_01.setImageURI(uri);
 
                 }catch(Exception e)
                 {
@@ -85,5 +82,8 @@ public class AccountActivity extends AppCompatActivity {
                 //redirectLoginActivity();
             }
         });
+    }
+
+    public void clickFinish(View view) {
     }
 }
